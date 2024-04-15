@@ -29,13 +29,10 @@ RUN /home/jupyter/notebook-env/bin/ipython profile create default
 
 ENV PATH=/home/jupyter/notebook-env/bin:$PATH
 
+RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
+
 WORKDIR /home/jupyter/notebook
 
-CMD /home/jupyter/notebook-env/bin/jupyter \
-    ${JUPYTER_SUBCOMMAND:-notebook} \
-    --ip 0.0.0.0 \
-    --port $PORT \
-    --no-browser \
-    --ServerApp.token="" \
-    --ServerApp.base_url="${SESSION_BACKEND_STATIC_TOKEN}" \
-    --JupyterNotebookApp.default_url="/notebooks/hello-jamsocket.ipynb"
+COPY start.sh .
+
+CMD ./start.sh
